@@ -1,41 +1,59 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MyMobileApp.MainPage">
+             x:Class="MyMobileApp.MainPage"
+             xmlns:viewmodel="clr-namespace:MyMobileApp.ViewModel"
+             x:DataType="viewmodel:MainViewModel">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <!-- Creating a grid with defined proportional spacing -->
+    <Grid RowDefinitions="Auto, Auto, 40, *"
+          ColumnDefinitions=".75*, .25*"
+          Padding="10"
+          RowSpacing="10"
+          ColumnSpacing="10"
+          BackgroundColor="Azure">
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
+        <!-- Displaying image -->
+        <Image Grid.ColumnSpan="2"
+               Source="jesus_photo.jpg"
+               Grid.Row="0"/>
 
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+        <!-- Creating type input -->
+        <Entry Placeholder="Add New Entry"
+               Text="{Binding Text}"
+               Grid.Row="1"/>
 
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
+        <!-- Creating button -->
+        <Button Text="Save"
+                Command="{Binding AddCommand}"
+                Grid.ColumnSpan="2"
+                Grid.Row="2"
+                BackgroundColor="Black"/>
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
+        <!-- Creating view of the bound collection -->
+        <CollectionView Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        SelectionMode="None"
+                        ItemsSource="{Binding Entries}">
 
-        </VerticalStackLayout>
-    </ScrollView>
+            <!-- Following code provided from walkthrough tutorial by James Montemagno, dotnet maui youtube tutorial series -->
+            <!-- Link: https://www.youtube.com/watch?v=Hh279ES_FNQ&list=PLdo4fOcmZ0oUBAdL2NwBpDs32zwGqb9DY&index=1 -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type x:String}">
+                    <Grid Padding="0,5">
+                        <Frame>
+                            <Label Text="{Binding .}"/>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <!-- End borrowed code -->
+
+
+
+        </CollectionView>
+
+
+    </Grid>
 
 </ContentPage>
